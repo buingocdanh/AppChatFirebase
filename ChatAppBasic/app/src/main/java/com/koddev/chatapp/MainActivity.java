@@ -105,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
 
                 viewPagerAdapter.addFragment(new UsersFragment(), "Users");
                 viewPagerAdapter.addFragment(new Friends(),"Friends");
-                viewPagerAdapter.addFragment(new RequestsFragment(),"Request");
+
+            //    viewPagerAdapter.addFragment(new RequestsFragment(),"Request");
                 viewPager.setAdapter(viewPagerAdapter);
 
                 tabLayout.setupWithViewPager(viewPager);

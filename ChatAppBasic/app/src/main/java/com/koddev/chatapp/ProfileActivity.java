@@ -45,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference mRootRef;
 
     private FirebaseUser mCurrent_user;
-
+    private DatabaseReference mCurrentUserData;
     private String mCurrent_state;
 
     @Override
@@ -62,7 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
         mFriendDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
         mNotificationDatabase = FirebaseDatabase.getInstance().getReference().child("notifications");
         mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
-
+        String currentid=mCurrent_user.getUid().toString();
+        mCurrentUserData = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrent_user.getUid());
         mProfileImage = (ImageView) findViewById(R.id.profile_image);
         mProfileName = (TextView) findViewById(R.id.profile_displayName);
         mProfileStatus = (TextView) findViewById(R.id.profile_status);
@@ -115,6 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
+                        //user_id: user nhan request
                         if(dataSnapshot.hasChild(user_id)){
 
                             String req_type = dataSnapshot.child(user_id).child("request_type").getValue().toString();
@@ -198,9 +200,32 @@ public class ProfileActivity extends AppCompatActivity {
                     notificationData.put("from", mCurrent_user.getUid());
                     notificationData.put("type", "request");
 
-                    Map requestMap = new HashMap();
+                    final Map requestMap = new HashMap();
                     requestMap.put("Friend_req/" + mCurrent_user.getUid() + "/" + user_id + "/request_type", "sent");
+
+                    //Get value curent user
+
+                    mCurrentUserData.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                           String  username =dataSnapshot.child("username").getValue().toString();
+                            //do what you want with the email
+                            requestMap.put("Friend_req/" + user_id + "/" + mCurrent_user.getUid() + "/username", username);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
                     requestMap.put("Friend_req/" + user_id + "/" + mCurrent_user.getUid() + "/request_type", "received");
+
+                    requestMap.put("Friend_req/" + user_id + "/" + mCurrent_user.getUid() + "/id", mCurrent_user.getUid().toString());
+
                     requestMap.put("notifications/" + user_id + "/" + newNotificationId, notificationData);
 
                     mRootRef.updateChildren(requestMap, new DatabaseReference.CompletionListener() {

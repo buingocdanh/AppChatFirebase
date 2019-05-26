@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                Toast.makeText(LoginActivity.this, " failed!", Toast.LENGTH_SHORT).show();
+
             }
         });
 
