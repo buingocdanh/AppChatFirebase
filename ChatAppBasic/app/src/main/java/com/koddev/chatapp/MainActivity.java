@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 username.setText(user.getUsername());
 
                 if (user.getImage().equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                    profile_image.setImageResource(R.drawable.default_avatar);
                 } else {
 
                     //change this

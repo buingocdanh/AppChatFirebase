@@ -1,6 +1,7 @@
 package com.koddev.chatapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -76,6 +77,10 @@ public class ChangeUserNameActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
 
                             mProgress.dismiss();
+                            Intent intent = new Intent(ChangeUserNameActivity.this, SettingsActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
 
                         } else {
 

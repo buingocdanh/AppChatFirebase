@@ -52,11 +52,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         final User user = mUsers.get(position);
         holder.username.setText(user.getUsername());
-        if (user.getImage().equals("default")){
-            holder.profile_image.setImageResource(R.drawable.ic_account_circle_black_24dp);
-        } else {
-            Picasso.get().load(user.getImage()).into(holder.profile_image);
+
+        try{
+            if (user.getImage().equals("default")){
+                holder.profile_image.setImageResource(R.drawable.default_avatar);
+            } else {
+                Picasso.get().load(user.getImage()).into(holder.profile_image);
+            }
+        }catch (Exception e){
+
         }
+
 
 
         if (ischat){

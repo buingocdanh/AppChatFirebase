@@ -94,8 +94,13 @@ public class ChatsFragment extends Fragment {
                     User user = snapshot.getValue(User.class);
                     for (Chatlist chatlist : usersList){
                        // if (user.getId().equals(chatlist.getId())){
-                        if(user.getId().compareTo(chatlist.getId())==0)
-                            mUsers.add(user);
+                        try{
+                            if(user.getId().compareTo(chatlist.getId())==0)
+                                mUsers.add(user);
+                        }catch (Exception e){
+
+                        }
+
                        // }
                     }
                 }
